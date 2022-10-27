@@ -77,7 +77,6 @@
                 res = divide(a, b)
                 return res
         }
-        return res
     }
 
     function add(a, b) {
@@ -136,7 +135,7 @@
             firstOperand = operand
             display.textContent = operand
             secondOperand = ''
-
+            currentResult = firstOperand
         }
         else if (firstOperand && !currentOperator) {
             firstOperand += operand
@@ -153,11 +152,17 @@
     equalsButton.addEventListener('click', equalsListener)
 
     function equalsListener(e) {
-        currentResult = operate(currentOperator, parseFloat(firstOperand), parseFloat(secondOperand)).toFixed(1)
-        splitResult = currentResult.split(".")
-        // Truncate number if ending in '.0'
-        if (splitResult[splitResult.length - 1] === '0') {
-            currentResult = Math.trunc(parseInt(currentResult))
+        if (firstOperand && secondOperand) {
+            currentResult = operate(currentOperator, parseFloat(firstOperand), parseFloat(secondOperand)).toFixed(1)
+            splitResult = currentResult.split(".")
+            // Truncate number if ending in '.0'
+            if (splitResult[splitResult.length - 1] === '0') {
+                currentResult = Math.trunc(parseInt(currentResult))
+            }
+        }
+        else {
+            currentResult = '0'
+
         }
         display.textContent = currentResult
         currentOperator = null
@@ -171,9 +176,10 @@
     clearButton.addEventListener('click', clearListener)
 
     function clearListener() {
-        firstOperand = null
-        secondOperand = null
-        currentOperator = null
+        firstOperand = ''
+        secondOperand = ''
+        currentOperator = ''
+        currentResult = '0'
         display.textContent = '0'
     }
 
@@ -201,22 +207,29 @@
     escButton.addEventListener('click', escListener)
 
     function escListener() {
-        if (display.textContent == currentResult) {
+        if (!firstOperand && currentResult) {
             firstOperand = currentResult.toString()
             secondOperand = ''
         }
 
-        if (firstOperand && !currentOperator) {
-            firstOperand = firstOperand.slice(0, -1)
+        if (firstOperand.length == 1) {
+            firstOperand = '0'
+            display.textContent = '0'
 
         }
-        else if (currentOperator && (!secondOperand)) {
-            currentOperator = null
-        }
         else {
-            secondOperand = secondOperand.slice(0, -1)
+            if (firstOperand && !currentOperator) {
+                firstOperand = firstOperand.slice(0, -1)
+            }
+            else if (currentOperator && (!secondOperand)) {
+                currentOperator = null
+            }
+            else {
+                secondOperand = secondOperand.slice(0, -1)
+            }
+
+            display.textContent = display.textContent.slice(0, -1)
         }
-        display.textContent = display.textContent.slice(0, -1)
     }
 
 </script>
