@@ -52,6 +52,7 @@
     const divideButton = document.getElementById("divide")
     const clearButton = document.getElementById("clear")
     const decimalButton = document.getElementById("decimal")
+    const escButton = document.getElementById("esc")
     const display = document.getElementById("display")
 
     let firstOperand;
@@ -138,6 +139,7 @@
 
         }
         else if (firstOperand && !currentOperator) {
+            console.log("!currentop")
             firstOperand += operand
             display.textContent += operand
             secondOperand = ''
@@ -182,8 +184,7 @@
         if (!firstOperand) {
             firstOperand = ''
         }
-
-        if (!currentOperator && !firstOperand.includes(".")) {
+        else if (!currentOperator && !firstOperand.includes(".")) {
             firstOperand += "."
             display.textContent += "."
 
@@ -196,13 +197,26 @@
     }
 
     // Backspace button
-    // escButton = document.getElementById("esc")
-    // escButton.addEventListener('click', backspace)
+    escButton.addEventListener('click', escListener)
 
-    // function backspace {
-    //     display.textContent = display
-    // }
+    function escListener() {
+        if (display.textContent == currentResult) {
+            firstOperand = currentResult.toString()
+            secondOperand = ''
+        }
 
+        if (firstOperand && !currentOperator) {
+            firstOperand = firstOperand.slice(0, -1)
+
+        }
+        else if (currentOperator && (!secondOperand)) {
+            currentOperator = null
+        }
+        else {
+            secondOperand = secondOperand.slice(0, -1)
+        }
+        display.textContent = display.textContent.slice(0, -1)
+    }
 
 </script>
 
