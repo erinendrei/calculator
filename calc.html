@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <div id="display">
+        </div>
+
+        <button class="number" id="one">1</button>
+        <button class="number" id="two">2</button>
+        <button class="number" id="three">3</button>
+        <button class="operator" id="add">+</button>
+
+        <button class="number" id="four">4</button>
+        <button class="number" id="five">5</button>
+        <button class="number" id="six">6</button>
+        <button class="operator" id="subtract">-</button>
+
+        <button class="number" id="seven">7</button>
+        <button class="number" id="eight">8</button>
+        <button class="number" id="nine">9</button>
+        <button class="operator" id="multiply">*</button>
+
+
+        <button class="number" id="zero">0</button>
+        <!-- <button id="esc">E</button> -->
+        <button id="equals">=</button>
+        <button class="operator" id="divide">/</button>
+
+    </div>
+</body>
+
+<script>
+
+    const equalsButton = document.getElementById("equals")
+    const addButton = document.getElementById("add")
+    const subtractButton = document.getElementById("subtract")
+    const multiplyButton = document.getElementById("multiply")
+    const divideButton = document.getElementById("divide")
+    const display = document.getElementById("display")
+
+    addButton.setAttribute('operator', '+')
+    subtractButton.setAttribute('operator', '-')
+    multiplyButton.setAttribute('operator', '*')
+    divideButton.setAttribute('operator', '/')
+
+
+
+
+
+    equalsButton.addEventListener('click', equalsListener)
+
+    function equalsListener(e) {
+        let result = operate(e.target.currentOperator, parseInt(e.target.firstOperand, 10), parseInt(e.target.secondOperand, 10))
+        display.textContent = result
+        e.target.currentOperator = null
+        e.target.firstOperand = null
+        e.target.secondOperand = null
+        e.target.result = result
+    }
+
+    function operate(operator, a, b) {
+
+        switch (operator) {
+            case "+":
+                res = add(a, b)
+                return res
+                break;
+            case "-":
+                res = subtract(a, b)
+                return res
+                break;
+            case "*":
+                res = multiply(a, b)
+                return res
+                break;
+            case "/":
+                res = divide(a, b)
+                return res
+                break;
+        }
+        return res
+    }
+
+    function add(a, b) {
+        return a + b
+    }
+
+    function subtract(a, b) {
+        return a - b
+    }
+    function multiply(a, b) {
+        return a * b
+    }
+    function divide(a, b) {
+        return b === 0 ? "Can't divide by zero." : a / b
+    }
+
+    operatorButtons = document.querySelectorAll(".operator")
+
+    operatorButtons.forEach((btn) => btn.addEventListener('click', setOperator))
+
+    function setOperator(e) {
+        if (display.textContent == equalsButton.result) {
+            equalsButton.firstOperand = equalsButton.result
+            console.log(typeof equalsButton.firstOperand)
+            equalsButton.secondOperand = ''
+        }
+        if (equalsButton.currentOperator) {
+            equalsButton.firstOperand = operate(equalsButton.currentOperator, parseInt(equalsButton.firstOperand), parseInt(equalsButton.secondOperand))
+
+            equalsButton.secondOperand = ''
+        }
+        currentOp = e.target.getAttribute('operator')
+        equalsButton.currentOperator = currentOp
+        display.textContent += currentOp
+
+    }
+
+
+    numberButtons = document.querySelectorAll(".number")
+    numberButtons.forEach((btn) => btn.addEventListener('click', setOperand))
+    numberButtons.forEach((btn) => btn.setAttribute('number', btn.textContent))
+
+    function setOperand(e) {
+        operand = e.target.getAttribute('number')
+
+        if (!equalsButton.firstOperand) {
+            equalsButton.firstOperand = operand
+            display.textContent = operand
+            equalsButton.secondOperand = ''
+        }
+        else if (equalsButton.firstOperand && !equalsButton.currentOperator) {
+            equalsButton.firstOperand += operand
+            display.textContent += operand
+        }
+        else if (equalsButton.firstOperand && equalsButton.currentOperator) {
+            equalsButton.secondOperand += operand
+            display.textContent += operand
+        }
+    }
+
+    // escButton = document.getElementById("esc")
+    // escButton.addEventListener('click', backspace)
+
+    // function backspace {
+    //     display.textContent = display
+    // }
+
+
+</script>
+
+</html>
