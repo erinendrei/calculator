@@ -52,8 +52,12 @@
     const divideButton = document.getElementById("divide")
     const clearButton = document.getElementById("clear")
     const decimalButton = document.getElementById("decimal")
-
     const display = document.getElementById("display")
+
+    let firstOperand;
+    let secondOperand;
+    let currentOperator;
+    let currentResult;
 
     addButton.setAttribute('operator', '+')
     subtractButton.setAttribute('operator', '-')
@@ -63,9 +67,9 @@
     clearButton.addEventListener('click', clearListener)
 
     function clearListener() {
-        equalsButton.firstOperand = null
-        equalsButton.secondOperand = null
-        equalsButton.currentOperator = null
+        firstOperand = null
+        secondOperand = null
+        currentOperator = null
         display.textContent = '0'
     }
 
@@ -73,36 +77,35 @@
 
     function decimalListener() {
 
-        if (!equalsButton.firstOperand) {
-            equalsButton.firstOperand = ''
+        if (!firstOperand) {
+            firstOperand = ''
         }
-        if (!display.textContent.includes(".")) {
+
+        if (!currentOperator && !firstOperand.includes(".")) {
+            firstOperand += "."
             display.textContent += "."
 
-            if (!equalsButton.currentOperator) {
-                equalsButton.firstOperand += "."
-
-            }
-            else {
-                equalsButton.secondOperand += "."
-            }
-
         }
+        else if (currentOperator && !secondOperand.includes(".")) {
+            secondOperand += "."
+            display.textContent += "."
+        }
+
     }
+
 
     equalsButton.addEventListener('click', equalsListener)
 
     function equalsListener(e) {
-        console.log(e.target.firstOperand)
-        let result = operate(e.target.currentOperator, parseFloat(e.target.firstOperand), parseFloat(e.target.secondOperand)).toFixed(1)
-        if (result.split(".")[result.length - 1] == '0') {
-            result = parseInt(result)
+        currentResult = operate(currentOperator, parseFloat(firstOperand), parseFloat(secondOperand)).toFixed(1)
+        splitResult = currentResult.split(".")
+        if (splitResult[splitResult.length - 1] === '0') {
+            currentResult = Math.trunc(parseInt(currentResult))
         }
-        display.textContent = result
-        e.target.currentOperator = null
-        e.target.firstOperand = null
-        e.target.secondOperand = null
-        e.target.result = result
+        display.textContent = currentResult
+        currentOperator = null
+        firstOperand = null
+        secondOperand = null
     }
 
     function operate(operator, a, b) {
@@ -147,23 +150,22 @@
     operatorButtons.forEach((btn) => btn.addEventListener('click', setOperator))
 
     function setOperator(e) {
-        if (display.textContent == equalsButton.result) {
-            equalsButton.firstOperand = equalsButton.result
-            equalsButton.secondOperand = ''
+        if (display.textContent == currentResult) {
+            firstOperand = currentResult
+            secondOperand = ''
         }
-        if (equalsButton.currentOperator) {
-            equalsButton.firstOperand = operate(equalsButton.currentOperator, parseFloat(equalsButton.firstOperand), parseFloat(equalsButton.secondOperand))
-            equalsButton.secondOperand = ''
+        if (currentOperator) {
+            firstOperand = operate(currentOperator, parseFloat(firstOperand), parseFloat(secondOperand))
+            secondOperand = ''
         }
-        if (e.target.id == "subtract" && !equalsButton.firstOperand) {
-            equalsButton.firstOperand = '-'
-            display.textContent = '-'
+        if (e.target.id == "subtract" && !firstOperand) {
+            firstOperand = '-'
+            display.textContent = firstOperand
         }
 
         else {
-            currentOp = e.target.getAttribute('operator')
-            equalsButton.currentOperator = currentOp
-            display.textContent += currentOp
+            currentOperator = e.target.getAttribute('operator')
+            display.textContent += currentOperator
         }
 
 
@@ -176,23 +178,20 @@
 
     function setOperand(e) {
         operand = e.target.getAttribute('number')
-
-        if (!equalsButton.firstOperand) {
-            equalsButton.firstOperand = operand
+        if (!firstOperand) {
+            firstOperand = operand
             display.textContent = operand
-            equalsButton.secondOperand = ''
+            secondOperand = ''
 
         }
-        else if (equalsButton.firstOperand && !equalsButton.currentOperator) {
-            equalsButton.firstOperand += operand
+        else if (firstOperand && !currentOperator) {
+            firstOperand += operand
             display.textContent += operand
-            equalsButton.secondOperand = ''
+            secondOperand = ''
         }
-        else if (equalsButton.firstOperand && equalsButton.currentOperator) {
-
-            equalsButton.secondOperand += operand
+        else if (firstOperand && currentOperator) {
+            secondOperand += operand
             display.textContent += operand
-            console.log(equalsButton.secondOperand)
         }
     }
 
