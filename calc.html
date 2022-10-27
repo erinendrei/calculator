@@ -59,74 +59,22 @@
     let currentOperator;
     let currentResult;
 
-    addButton.setAttribute('operator', '+')
-    subtractButton.setAttribute('operator', '-')
-    multiplyButton.setAttribute('operator', '*')
-    divideButton.setAttribute('operator', '/')
-
-    clearButton.addEventListener('click', clearListener)
-
-    function clearListener() {
-        firstOperand = null
-        secondOperand = null
-        currentOperator = null
-        display.textContent = '0'
-    }
-
-    decimalButton.addEventListener('click', decimalListener)
-
-    function decimalListener() {
-
-        if (!firstOperand) {
-            firstOperand = ''
-        }
-
-        if (!currentOperator && !firstOperand.includes(".")) {
-            firstOperand += "."
-            display.textContent += "."
-
-        }
-        else if (currentOperator && !secondOperand.includes(".")) {
-            secondOperand += "."
-            display.textContent += "."
-        }
-
-    }
-
-
-    equalsButton.addEventListener('click', equalsListener)
-
-    function equalsListener(e) {
-        currentResult = operate(currentOperator, parseFloat(firstOperand), parseFloat(secondOperand)).toFixed(1)
-        splitResult = currentResult.split(".")
-        if (splitResult[splitResult.length - 1] === '0') {
-            currentResult = Math.trunc(parseInt(currentResult))
-        }
-        display.textContent = currentResult
-        currentOperator = null
-        firstOperand = null
-        secondOperand = null
-    }
-
+    // Operate functionality
     function operate(operator, a, b) {
 
         switch (operator) {
             case "+":
                 res = add(a, b)
                 return res
-                break;
             case "-":
                 res = subtract(a, b)
                 return res
-                break;
             case "*":
                 res = multiply(a, b)
                 return res
-                break;
             case "/":
                 res = divide(a, b)
                 return res
-                break;
         }
         return res
     }
@@ -145,9 +93,14 @@
         return b === 0 ? "Nem." : a / b
     }
 
+    // Operator buttons
     operatorButtons = document.querySelectorAll(".operator")
-
     operatorButtons.forEach((btn) => btn.addEventListener('click', setOperator))
+
+    addButton.setAttribute('operator', '+')
+    subtractButton.setAttribute('operator', '-')
+    multiplyButton.setAttribute('operator', '*')
+    divideButton.setAttribute('operator', '/')
 
     function setOperator(e) {
         if (display.textContent == currentResult) {
@@ -171,7 +124,7 @@
 
     }
 
-
+    // Number buttons
     numberButtons = document.querySelectorAll(".number")
     numberButtons.forEach((btn) => btn.addEventListener('click', setOperand))
     numberButtons.forEach((btn) => btn.setAttribute('number', btn.textContent))
@@ -195,6 +148,54 @@
         }
     }
 
+    // Equals button
+    equalsButton.addEventListener('click', equalsListener)
+
+    function equalsListener(e) {
+        currentResult = operate(currentOperator, parseFloat(firstOperand), parseFloat(secondOperand)).toFixed(1)
+        splitResult = currentResult.split(".")
+        // Truncate number if ending in '.0'
+        if (splitResult[splitResult.length - 1] === '0') {
+            currentResult = Math.trunc(parseInt(currentResult))
+        }
+        display.textContent = currentResult
+        currentOperator = null
+        firstOperand = null
+        secondOperand = null
+    }
+
+    // Clear button
+    clearButton.addEventListener('click', clearListener)
+
+    function clearListener() {
+        firstOperand = null
+        secondOperand = null
+        currentOperator = null
+        display.textContent = '0'
+    }
+
+    // Decimal button    
+    decimalButton.addEventListener('click', decimalListener)
+
+    function decimalListener() {
+
+        if (!firstOperand) {
+            firstOperand = ''
+        }
+
+        if (!currentOperator && !firstOperand.includes(".")) {
+            firstOperand += "."
+            display.textContent += "."
+
+        }
+        else if (currentOperator && !secondOperand.includes(".")) {
+            secondOperand += "."
+            display.textContent += "."
+        }
+
+    }
+
+    // Backspace button
     // escButton = document.getElementById("esc")
     // escButton.addEventListener('click', backspace)
 
