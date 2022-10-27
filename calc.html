@@ -14,6 +14,10 @@
     <div class="container">
         <div id="display">
         </div>
+        <button id="clear">AC</button>
+        <button id="esc">Esc</button>
+        <button id="plusminus">+-</button>
+        <button id="decimal">.</button>
 
         <button class="number" id="one">1</button>
         <button class="number" id="two">2</button>
@@ -32,9 +36,10 @@
 
 
         <button class="number" id="zero">0</button>
-        <!-- <button id="esc">E</button> -->
         <button id="equals">=</button>
         <button class="operator" id="divide">/</button>
+
+
 
     </div>
 </body>
@@ -60,6 +65,7 @@
     equalsButton.addEventListener('click', equalsListener)
 
     function equalsListener(e) {
+        console.log(parseInt(e.target.secondOperand))
         let result = operate(e.target.currentOperator, parseInt(e.target.firstOperand, 10), parseInt(e.target.secondOperand, 10))
         display.textContent = result
         e.target.currentOperator = null
@@ -120,9 +126,17 @@
 
             equalsButton.secondOperand = ''
         }
-        currentOp = e.target.getAttribute('operator')
-        equalsButton.currentOperator = currentOp
-        display.textContent += currentOp
+        if (e.target.id == "subtract" && !equalsButton.firstOperand) {
+            equalsButton.firstOperand = '-'
+            display.textContent = '-'
+        }
+
+        else {
+            currentOp = e.target.getAttribute('operator')
+            equalsButton.currentOperator = currentOp
+            display.textContent += currentOp
+        }
+
 
     }
 
@@ -133,15 +147,14 @@
 
     function setOperand(e) {
         operand = e.target.getAttribute('number')
-
         if (!equalsButton.firstOperand) {
             equalsButton.firstOperand = operand
             display.textContent = operand
-            equalsButton.secondOperand = ''
         }
         else if (equalsButton.firstOperand && !equalsButton.currentOperator) {
             equalsButton.firstOperand += operand
             display.textContent += operand
+            equalsButton.secondOperand = ''
         }
         else if (equalsButton.firstOperand && equalsButton.currentOperator) {
             equalsButton.secondOperand += operand

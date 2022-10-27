@@ -15,7 +15,7 @@ body {
     border: 1px solid black;
     border-radius: 10x;
     grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(4, 1fr);
+    grid-template-rows: repeat(5, 1fr);
 }
 
 #display {
@@ -53,7 +53,6 @@ button:hover {
 }
 
 .operator,
-#equals,
-#esc {
+#equals {
     background-color: orange;
 }
