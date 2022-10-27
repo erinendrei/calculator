@@ -12,8 +12,7 @@
 <body>
 
     <div class="container">
-        <div id="display">
-        </div>
+        <div id="display">0</div>
         <button id="clear">AC</button>
         <button id="esc">Esc</button>
         <button id="plusminus">+-</button>
@@ -51,6 +50,9 @@
     const subtractButton = document.getElementById("subtract")
     const multiplyButton = document.getElementById("multiply")
     const divideButton = document.getElementById("divide")
+    const clearButton = document.getElementById("clear")
+    const decimalButton = document.getElementById("decimal")
+
     const display = document.getElementById("display")
 
     addButton.setAttribute('operator', '+')
@@ -58,15 +60,44 @@
     multiplyButton.setAttribute('operator', '*')
     divideButton.setAttribute('operator', '/')
 
+    clearButton.addEventListener('click', clearListener)
 
+    function clearListener() {
+        equalsButton.firstOperand = null
+        equalsButton.secondOperand = null
+        equalsButton.currentOperator = null
+        display.textContent = '0'
+    }
 
+    decimalButton.addEventListener('click', decimalListener)
 
+    function decimalListener() {
+
+        if (!equalsButton.firstOperand) {
+            equalsButton.firstOperand = ''
+        }
+        if (!display.textContent.includes(".")) {
+            display.textContent += "."
+
+            if (!equalsButton.currentOperator) {
+                equalsButton.firstOperand += "."
+
+            }
+            else {
+                equalsButton.secondOperand += "."
+            }
+
+        }
+    }
 
     equalsButton.addEventListener('click', equalsListener)
 
     function equalsListener(e) {
-        console.log(parseInt(e.target.secondOperand))
-        let result = operate(e.target.currentOperator, parseInt(e.target.firstOperand, 10), parseInt(e.target.secondOperand, 10))
+        console.log(e.target.firstOperand)
+        let result = operate(e.target.currentOperator, parseFloat(e.target.firstOperand), parseFloat(e.target.secondOperand)).toFixed(1)
+        if (result.split(".")[result.length - 1] == '0') {
+            result = parseInt(result)
+        }
         display.textContent = result
         e.target.currentOperator = null
         e.target.firstOperand = null
@@ -108,7 +139,7 @@
         return a * b
     }
     function divide(a, b) {
-        return b === 0 ? "Can't divide by zero." : a / b
+        return b === 0 ? "Nem." : a / b
     }
 
     operatorButtons = document.querySelectorAll(".operator")
@@ -118,12 +149,10 @@
     function setOperator(e) {
         if (display.textContent == equalsButton.result) {
             equalsButton.firstOperand = equalsButton.result
-            console.log(typeof equalsButton.firstOperand)
             equalsButton.secondOperand = ''
         }
         if (equalsButton.currentOperator) {
-            equalsButton.firstOperand = operate(equalsButton.currentOperator, parseInt(equalsButton.firstOperand), parseInt(equalsButton.secondOperand))
-
+            equalsButton.firstOperand = operate(equalsButton.currentOperator, parseFloat(equalsButton.firstOperand), parseFloat(equalsButton.secondOperand))
             equalsButton.secondOperand = ''
         }
         if (e.target.id == "subtract" && !equalsButton.firstOperand) {
@@ -147,9 +176,12 @@
 
     function setOperand(e) {
         operand = e.target.getAttribute('number')
+
         if (!equalsButton.firstOperand) {
             equalsButton.firstOperand = operand
             display.textContent = operand
+            equalsButton.secondOperand = ''
+
         }
         else if (equalsButton.firstOperand && !equalsButton.currentOperator) {
             equalsButton.firstOperand += operand
@@ -157,8 +189,10 @@
             equalsButton.secondOperand = ''
         }
         else if (equalsButton.firstOperand && equalsButton.currentOperator) {
+
             equalsButton.secondOperand += operand
             display.textContent += operand
+            console.log(equalsButton.secondOperand)
         }
     }
 
