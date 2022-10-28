@@ -189,7 +189,8 @@
     function decimalListener() {
 
         if (!firstOperand) {
-            firstOperand = ''
+            firstOperand = '0.'
+            display.textContent += "."
         }
         else if (!currentOperator && !firstOperand.includes(".")) {
             firstOperand += "."
@@ -207,28 +208,42 @@
     escButton.addEventListener('click', escListener)
 
     function escListener() {
-        if (!firstOperand && currentResult) {
-            firstOperand = currentResult.toString()
-            secondOperand = ''
-        }
+        if (!firstOperand) {
 
-        if (firstOperand.length == 1) {
-            firstOperand = '0'
-            display.textContent = '0'
+            if (currentResult) {
+                if (currentResult.toString().length > 1) {
+                    firstOperand = currentResult.toString().slice(0, -1)
+                }
+                else { firstOperand = '0' }
 
-        }
-        else {
-            if (firstOperand && !currentOperator) {
-                firstOperand = firstOperand.slice(0, -1)
+                currentResult = ''
+                secondOperand = ''
             }
-            else if (currentOperator && (!secondOperand)) {
-                currentOperator = null
+            else if (!currentResult) {
+                firstOperand = '0'
+
+            }
+            display.textContent = firstOperand
+        }
+
+        else {
+
+            if (firstOperand.length == 1) {
+                firstOperand = '0'
+                display.textContent = '0'
             }
             else {
-                secondOperand = secondOperand.slice(0, -1)
+                if (firstOperand && !currentOperator) {
+                    firstOperand = firstOperand.slice(0, -1)
+                }
+                else if (currentOperator && (!secondOperand)) {
+                    currentOperator = null
+                }
+                else {
+                    secondOperand = secondOperand.slice(0, -1)
+                }
+                display.textContent = display.textContent.slice(0, -1)
             }
-
-            display.textContent = display.textContent.slice(0, -1)
         }
     }
 

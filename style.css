@@ -54,9 +54,19 @@ button:hover {
     transform: scale(1.1)
 }
 
-.operator,
-#equals {
+.operator {
     background-color: orange;
     color: white;
     border: solid 1px orange;
+    font-size: 25px;
+}
+
+#equals {
+    align-self: center;
+    background-color: black;
+    color: orange;
+    border: solid 1px black;
+    font-size: 25px;
+    font-weight: 800;
+    font-family: 'Courier New', Courier, monospace
 }
