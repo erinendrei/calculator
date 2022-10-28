@@ -1,4 +1,3 @@
-
 const equalsButton = document.getElementById("equals")
 const addButton = document.getElementById("add")
 const subtractButton = document.getElementById("subtract")
@@ -9,7 +8,7 @@ const decimalButton = document.getElementById("decimal")
 const escButton = document.getElementById("esc")
 const display = document.getElementById("display")
 
-let firstOperand;
+let firstOperand = '0';
 let secondOperand;
 let currentOperator;
 let currentResult;
@@ -76,6 +75,7 @@ function setOperator(e) {
     else {
         currentOperator = e.target.getAttribute('operator')
         display.textContent += currentOperator
+        secondOperand = ''
     }
 
 
@@ -88,13 +88,12 @@ numberButtons.forEach((btn) => btn.addEventListener('click', setOperand))
 function setOperand(e) {
     operand = e.target.textContent
 
-    if (!firstOperand) {
+    if (!firstOperand || (firstOperand == '0' && !currentOperator)) {
         firstOperand = operand
         display.textContent = operand
         secondOperand = ''
-        currentResult = firstOperand
     }
-    else if (firstOperand && !currentOperator) {
+    else if (firstOperand && firstOperand !== '0' && !currentOperator) {
         firstOperand += operand
         display.textContent += operand
         secondOperand = ''
@@ -172,7 +171,6 @@ function escListener() {
             else {
                 firstOperand = '0'
             }
-
             currentResult = ''
             secondOperand = ''
         }
