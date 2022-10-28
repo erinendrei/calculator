@@ -11,7 +11,7 @@ const display = document.getElementById("display")
 let firstOperand = '0';
 let secondOperand;
 let currentOperator;
-let currentResult;
+let currentResult = '';
 
 // Operate functionality
 function operate(operator, a, b) {
@@ -57,27 +57,27 @@ divideButton.setAttribute('operator', '/')
 
 function setOperator(e) {
 
-    if (display.textContent == currentResult) {
+    if (currentResult && !firstOperand) {
         firstOperand = currentResult
         secondOperand = ''
     }
-    if (currentOperator) {
-        //typing operator after operator
 
-        //multiple operations
-        firstOperand = operate(currentOperator, parseFloat(firstOperand), parseFloat(secondOperand))
-        secondOperand = ''
-    }
     if (e.target.id == "subtract" && !firstOperand) {
         firstOperand = '-'
         display.textContent = firstOperand
     }
-    else {
+
+    let lastChar = display.textContent.split("").pop()
+    if (parseInt(lastChar) || parseInt(lastChar) === 0) {
+        if (currentOperator) {
+            //multiple operations
+            firstOperand = operate(currentOperator, parseFloat(firstOperand), parseFloat(secondOperand))
+        }
+
         currentOperator = e.target.getAttribute('operator')
         display.textContent += currentOperator
         secondOperand = ''
     }
-
 
 }
 
@@ -116,7 +116,7 @@ function equalsListener(e) {
             currentResult = Math.trunc(parseInt(currentResult))
         }
     }
-    else {
+    else if (!currentResult) {
         currentResult = '0'
     }
     display.textContent = currentResult
@@ -131,7 +131,7 @@ function equalsListener(e) {
 clearButton.addEventListener('click', clearListener)
 
 function clearListener() {
-    firstOperand = ''
+    firstOperand = '0'
     secondOperand = ''
     currentOperator = ''
     currentResult = '0'
