@@ -6,6 +6,7 @@ const divideButton = document.getElementById("divide")
 const clearButton = document.getElementById("clear")
 const decimalButton = document.getElementById("decimal")
 const escButton = document.getElementById("esc")
+const pmButton = document.getElementById("plusminus")
 const display = document.getElementById("display")
 
 let firstOperand = '0';
@@ -94,6 +95,10 @@ function setOperand(e) {
         secondOperand = ''
     }
     else if (firstOperand && firstOperand !== '0' && !currentOperator) {
+        if (firstOperand == '-0') {
+            firstOperand = '-'
+            display.textContent = firstOperand
+        }
         firstOperand += operand
         display.textContent += operand
         secondOperand = ''
@@ -198,6 +203,28 @@ function escListener() {
             }
             display.textContent = display.textContent.slice(0, -1)
         }
+    }
+}
+
+//Plus-minus button
+
+pmButton.addEventListener('click', pmListener)
+function pmListener() {
+    if (!firstOperand) {
+        firstOperand = '-'
+        display.textContent = firstOperand
+    }
+    else if (firstOperand[0] !== '-' && !currentOperator) {
+        firstOperand = '-' + firstOperand
+        display.textContent = firstOperand
+    }
+    else if (currentOperator && !secondOperand) {
+        secondOperand = '-'
+        display.textContent += secondOperand
+    }
+    else {
+        secondOperand = '-' + secondOperand
+        display.textContent = firstOperand + currentOperator + secondOperand
     }
 }
 
