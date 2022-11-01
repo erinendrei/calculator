@@ -46,7 +46,7 @@ button {
     background-color: #3a3a3a;
     color: white;
     border-radius: 50%;
-    font-family: 'Courier New', Courier;
+    font-family: sans-serif;
     border: solid 1px black;
     font-size: 16px;
 
@@ -61,13 +61,9 @@ button:hover {
     transform: scale(1.1)
 }
 
-.operator {
+button.operator {
     background-color: orange;
     color: white;
     border: solid 1px orange;
-    font-size: 25px;
-}
-
-button#equals {
-    font-size: 25px;
+    font-size: 20px;
 }
