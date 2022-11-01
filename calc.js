@@ -51,13 +51,9 @@ function divide(a, b) {
 operatorButtons = document.querySelectorAll(".operator")
 operatorButtons.forEach((btn) => btn.addEventListener('click', setOperator))
 
-addButton.setAttribute('operator', '+')
-subtractButton.setAttribute('operator', '-')
-multiplyButton.setAttribute('operator', '*')
-divideButton.setAttribute('operator', '/')
+
 
 function setOperator(e) {
-
     if (currentResult && !firstOperand) {
         firstOperand = currentResult
         secondOperand = ''
@@ -75,7 +71,7 @@ function setOperator(e) {
             firstOperand = operate(currentOperator, parseFloat(firstOperand), parseFloat(secondOperand))
         }
 
-        currentOperator = e.target.getAttribute('operator')
+        currentOperator = e.target.dataset.id
         display.textContent += currentOperator
         secondOperand = ''
     }
