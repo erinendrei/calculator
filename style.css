@@ -17,7 +17,7 @@ body {
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(5, 1fr);
     font-size: 20px;
-    box-shadow: 20px;
+    background-color: black
 }
 
 #display {
@@ -30,7 +30,8 @@ body {
     background-color: lightgrey;
     color: black;
     border-radius: 10px;
-    grid-column: 1 / -1
+    grid-column: 1 / -1;
+    margin-bottom: 10px;
 }
 
 #zero {
@@ -42,13 +43,18 @@ button {
     text-align: center;
     width: auto;
     height: 45px;
-    background-color: black;
+    background-color: #3a3a3a;
     color: white;
-    border-radius: 10px;
+    border-radius: 50%;
     font-family: 'Courier New', Courier;
     border: solid 1px black;
     font-size: 16px;
 
+}
+
+
+button#zero {
+    border-radius: 20px;
 }
 
 button:hover {
@@ -62,12 +68,6 @@ button:hover {
     font-size: 25px;
 }
 
-#equals {
-    align-self: center;
-    background-color: black;
-    color: orange;
-    border: solid 1px black;
+button#equals {
     font-size: 25px;
-    font-weight: 800;
-    font-family: 'Courier New', Courier, monospace
 }

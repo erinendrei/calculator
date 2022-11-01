@@ -19,17 +19,13 @@ function operate(operator, a, b) {
 
     switch (operator) {
         case "+":
-            res = add(a, b)
-            return res
+            return add(a, b)
         case "-":
-            res = subtract(a, b)
-            return res
+            return subtract(a, b)
         case "*":
-            res = multiply(a, b)
-            return res
+            return multiply(a, b)
         case "/":
-            res = divide(a, b)
-            return res
+            return divide(a, b)
     }
 }
 
@@ -114,7 +110,7 @@ function equalsListener(e) {
         splitResult = currentResult.split(".")
         // Truncate number if ending in '.0'
         if (splitResult[splitResult.length - 1] === '0') {
-            currentResult = Math.trunc(parseInt(currentResult))
+            currentResult = Math.trunc(Number(currentResult))
         }
     }
     else if (!currentResult) {
