@@ -211,7 +211,11 @@ function escListener() {
 pmButton.addEventListener('click', pmListener)
 function pmListener() {
     if (!firstOperand) {
-        firstOperand = '-'
+        firstOperand = '-' + currentResult
+        display.textContent = firstOperand
+    }
+    else if (firstOperand[0] == '-' && !currentOperator) {
+        firstOperand = firstOperand.slice(1, firstOperand.length)
         display.textContent = firstOperand
     }
     else if (firstOperand[0] !== '-' && !currentOperator) {
@@ -222,9 +226,26 @@ function pmListener() {
         secondOperand = '-'
         display.textContent += secondOperand
     }
-    else {
+    else if (secondOperand[0] !== '-') {
         secondOperand = '-' + secondOperand
         display.textContent = firstOperand + currentOperator + secondOperand
     }
+    else if (secondOperand[0] == '-') {
+        secondOperand = secondOperand.slice(1, secondOperand.length)
+        display.textContent = firstOperand + currentOperator + secondOperand
+    }
+
+}
+
+window.addEventListener('keydown', getKeyPress)
+
+const allowedKeys = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '+', '-', '*', '/', 'Backspace', '=']
+function getKeyPress(e) {
+
+    if (allowedKeys.includes(e.key)) {
+        let btn = document.querySelector(`[data-id="${e.key}"]`)
+        btn.click()
+    }
+    e.preventDefault()
 }
 
