@@ -231,11 +231,17 @@ function pmListener() {
 
 window.addEventListener('keydown', getKeyPress)
 
-const allowedKeys = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '+', '-', '*', '/', 'Backspace', '=']
+const allowedKeys = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '+', '-', '*', '/', 'Backspace', 'Enter', '=']
 function getKeyPress(e) {
 
     if (allowedKeys.includes(e.key)) {
-        let btn = document.querySelector(`[data-id="${e.key}"]`)
+        if (e.key === 'Enter') {
+            keyIdString = `[data-id="="]`
+        }
+        else {
+            keyIdString = `[data-id="${e.key}"]`
+        }
+        let btn = document.querySelector(keyIdString)
         btn.click()
     }
     e.preventDefault()
