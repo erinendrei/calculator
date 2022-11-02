@@ -9,6 +9,8 @@ const escButton = document.getElementById("esc")
 const pmButton = document.getElementById("plusminus")
 const display = document.getElementById("display")
 
+const decimalPlaces = 9
+
 let firstOperand = '0';
 let secondOperand;
 let currentOperator;
@@ -106,11 +108,12 @@ equalsButton.addEventListener('click', equalsListener)
 
 function equalsListener(e) {
     if (firstOperand && secondOperand) {
-        currentResult = operate(currentOperator, parseFloat(firstOperand), parseFloat(secondOperand)).toFixed(1)
+        currentResult = operate(currentOperator, parseFloat(firstOperand), parseFloat(secondOperand)).toFixed(decimalPlaces)
         splitResult = currentResult.split(".")
-        // Truncate number if ending in '.0'
-        if (splitResult[splitResult.length - 1] === '0') {
-            currentResult = Math.trunc(Number(currentResult))
+        splitLast = splitResult[splitResult.length - 1]
+        // Truncate number if ending in zeros
+        if (splitLast[splitLast.length - 1] === '0') {
+            currentResult = parseFloat(currentResult)
         }
     }
     else if (!currentResult) {
@@ -231,7 +234,7 @@ function pmListener() {
 
 window.addEventListener('keydown', getKeyPress)
 
-const allowedKeys = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '+', '-', '*', '/', 'Backspace', 'Enter', '=']
+const allowedKeys = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '+', '-', '*', '/', '.', 'Backspace', 'Enter', '=']
 function getKeyPress(e) {
 
     if (allowedKeys.includes(e.key)) {
