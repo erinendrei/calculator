@@ -57,9 +57,15 @@ function setOperator(e) {
         secondOperand = ''
     }
 
-    if (e.target.id == "subtract" && !firstOperand) {
-        firstOperand = '-'
-        display.textContent = firstOperand
+    if (e.target.id == "subtract") {
+        if (!firstOperand) {
+            firstOperand = '-'
+            display.textContent = firstOperand
+        }
+        if (firstOperand && currentOperator && !secondOperand) {
+            secondOperand = '-'
+            display.textContent += secondOperand
+        }
     }
 
     let lastChar = display.textContent.split("").pop()
@@ -206,7 +212,8 @@ function escListener() {
 pmButton.addEventListener('click', pmListener)
 function pmListener() {
     if (!firstOperand) {
-        firstOperand = '-' + currentResult
+        if (String(currentResult)[0] !== '-') { firstOperand = '-' + currentResult }
+        else { firstOperand = String(currentResult).slice(1, currentResult.length) }
         display.textContent = firstOperand
     }
     else if (firstOperand[0] == '-' && !currentOperator) {
