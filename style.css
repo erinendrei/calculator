@@ -10,7 +10,7 @@ body {
     margin-top: 100px;
     grid-gap: 10px;
     width: 270px;
-    height: 400px;
+    height: 435px;
     padding: 20px;
     padding-bottom: 25px;
     border: 1px solid black;
@@ -24,8 +24,8 @@ body {
 #display {
     text-align: right;
     width: auto;
-    height: 50px;
-    line-height: 50px;
+    height: 80px;
+    line-height: 80px;
     padding-right: 20px;
     font-family: 'Courier New', Courier;
     background-color: lightgrey;
@@ -33,6 +33,7 @@ body {
     border-radius: 10px;
     grid-column: 1 / -1;
     margin-bottom: 10px;
+    font-size: 36px;
 }
 
 button {
@@ -42,7 +43,6 @@ button {
     background-color: #3a3a3a;
     color: white;
     border-radius: 50%;
-    font-family: sans-serif;
     border: solid 1px black;
     font-size: 1em;
     padding: 0px;
@@ -58,6 +58,11 @@ button#zero {
 button:hover {
     transform: scale(1.1)
 }
+
+button.number {
+    font-size: 20px;
+}
+
 
 button.operator {
     background-color: orange;
