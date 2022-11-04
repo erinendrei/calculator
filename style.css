@@ -9,14 +9,14 @@ body {
     justify-content: center;
     margin-top: 100px;
     grid-gap: 10px;
-    width: 250px;
-    height: 370px;
+    width: 270px;
+    height: 400px;
     padding: 20px;
     border: 1px solid black;
     border-radius: 30px;
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(5, 1fr);
-    font-size: 20px;
+    font-size: 16px;
     background-color: black
 }
 
@@ -41,14 +41,15 @@ body {
 
 button {
     text-align: center;
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
     background-color: #3a3a3a;
     color: white;
     border-radius: 50%;
     font-family: sans-serif;
     border: solid 1px black;
-    font-size: 16px;
+    font-size: 1em;
+    padding: 0px;
 
 }
 
